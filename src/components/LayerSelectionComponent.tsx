@@ -1,6 +1,6 @@
-import React from "react";
-import "rc-slider/assets/index.css";
-import { Pivot, PivotItem } from "office-ui-fabric-react/lib/Pivot";
+import React from 'react';
+import 'rc-slider/assets/index.css';
+import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 
 export interface ILayerSelectionComponentProps {
     layer: string;

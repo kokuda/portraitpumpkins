@@ -1,6 +1,6 @@
-import React from "react";
-import "rc-slider/assets/index.css";
-import { Text } from "@fluentui/react/lib/Text";
+import React from 'react';
+import 'rc-slider/assets/index.css';
+import { Text } from '@fluentui/react/lib/Text';
 
 export interface IInputFormComponentProps {
     label: string;
@@ -10,11 +10,11 @@ export interface IInputFormComponentProps {
 export const InputFormComponent: React.FC<IInputFormComponentProps> = React.memo(function InputFormComponent(props) {
     return (
         <div>
-            <Text variant={"medium"} className="ms-fontWeight-bold">
+            <Text variant={'medium'} className="ms-fontWeight-bold">
                 {props.label}
             </Text>
             {props.children}
-            <Text variant={"small"}>{props.helpText}</Text>
+            <Text variant={'small'}>{props.helpText}</Text>
         </div>
-    )
+    );
 });

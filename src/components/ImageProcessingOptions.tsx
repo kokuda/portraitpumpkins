@@ -1,27 +1,27 @@
-import React from "react";
-import { PrimaryButton } from "@fluentui/react/lib/Button";
-import Slider, { createSliderWithTooltip } from "rc-slider";
-import { Range } from "rc-slider";
-import { InputFormComponent } from "./InputFormComponent";
+import React from 'react';
+import { PrimaryButton } from '@fluentui/react/lib/Button';
+import Slider, { createSliderWithTooltip } from 'rc-slider';
+import { Range } from 'rc-slider';
+import { InputFormComponent } from './InputFormComponent';
 
 const PUMPKIN_SCALE_MARKS = {
-    20: "20%",
-    50: "50%",
-    80: "80%",
-    100: "100%",
-    120: "120%",
-    150: "150%",
-    180: "180%",
+    20: '20%',
+    50: '50%',
+    80: '80%',
+    100: '100%',
+    120: '120%',
+    150: '150%',
+    180: '180%',
 };
 
 const PUMPKIN_DEGREE_MAP = {
-    [-135]: "-135°",
-    [-90]: "-90°",
-    [-45]: "-45°",
-    0: "0°",
-    45: "45°",
-    90: "90°",
-    135: "135°",
+    [-135]: '-135°',
+    [-90]: '-90°',
+    [-45]: '-45°',
+    0: '0°',
+    45: '45°',
+    90: '90°',
+    135: '135°',
 };
 
 const PUMPKIN_SIZE_MAP = {

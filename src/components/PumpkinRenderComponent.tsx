@@ -1,5 +1,5 @@
-import React from "react";
-import * as BABYLON from "babylonjs";
+import React from 'react';
+import * as BABYLON from 'babylonjs';
 
 export interface IPumpkinRenderComponentProps {
     width: number;
@@ -15,7 +15,7 @@ export interface IPumpkinRenderComponentProps {
 const _fleshColor = new BABYLON.Color4(254 / 255, 219 / 255, 53 / 255);
 
 function createRenderTargetTexture(scene: BABYLON.Scene) {
-    BABYLON.Effect.ShadersStore["pumpkinFacePixelShader"] = `
+    BABYLON.Effect.ShadersStore['pumpkinFacePixelShader'] = `
         #ifdef GL_ES
         precision highp float;
         #endif
@@ -40,7 +40,7 @@ function createRenderTargetTexture(scene: BABYLON.Scene) {
         }
     `;
 
-    let texture = new BABYLON.CustomProceduralTexture("PumpkinSkin", "pumpkinFace", 1024, scene);
+    let texture = new BABYLON.CustomProceduralTexture('PumpkinSkin', 'pumpkinFace', 1024, scene);
 
     return texture;
 }
@@ -55,7 +55,7 @@ export const PumpkinRenderComponent: React.FC<IPumpkinRenderComponentProps> = Re
     // Load the pumkin texture only once (no depedendencies)
     React.useEffect(() => {
         var img = new Image();
-        img.src = "/textures/pumpkin.jpg";
+        img.src = '/textures/pumpkin.jpg';
         img.onload = () => {
             setPumpkinImg(img);
         };
@@ -88,11 +88,11 @@ export const PumpkinRenderComponent: React.FC<IPumpkinRenderComponentProps> = Re
                 _dynamicTextureFace.current.update();
 
                 // Set the shader values to render the face and pumpkin skin onto the pumpkin model
-                _customTexture.current.setColor4("fleshColor", _fleshColor);
+                _customTexture.current.setColor4('fleshColor', _fleshColor);
                 const scaleVector = new BABYLON.Vector2(scale, (scale * sourceCanvas.height) / sourceCanvas.width);
-                _customTexture.current.setVector2("scale", scaleVector);
-                _customTexture.current.setTexture("skinSampler", _dynamicTextureSkin.current);
-                _customTexture.current.setTexture("faceSampler", _dynamicTextureFace.current);
+                _customTexture.current.setVector2('scale', scaleVector);
+                _customTexture.current.setTexture('skinSampler', _dynamicTextureSkin.current);
+                _customTexture.current.setTexture('faceSampler', _dynamicTextureFace.current);
 
                 if (enableCameraControls) {
                     engine.current?.runRenderLoop(() => {
@@ -116,9 +116,8 @@ export const PumpkinRenderComponent: React.FC<IPumpkinRenderComponentProps> = Re
             height: number,
             enableCameraControls: boolean
         ) => {
-
             // This creates and positions a free camera (non-mesh)
-            var camera = new BABYLON.ArcRotateCamera("camera1", 0, Math.PI / 2, 5, BABYLON.Vector3.Zero(), scene);
+            var camera = new BABYLON.ArcRotateCamera('camera1', 0, Math.PI / 2, 5, BABYLON.Vector3.Zero(), scene);
 
             // This targets the camera to scene origin
             camera.setTarget(BABYLON.Vector3.Zero());
@@ -129,45 +128,45 @@ export const PumpkinRenderComponent: React.FC<IPumpkinRenderComponentProps> = Re
             }
 
             // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-            new BABYLON.HemisphericLight("HemiLight", new BABYLON.Vector3(1, 1, 0), scene).intensity = 1;
+            new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(1, 1, 0), scene).intensity = 1;
 
             // Pumpkin texture
             _customTexture.current = createRenderTargetTexture(scene);
             _dynamicTextureSkin.current = new BABYLON.DynamicTexture(
-                "PumpkinSkin",
+                'PumpkinSkin',
                 { width: width, height: height },
                 scene,
                 false
             );
             _dynamicTextureFace.current = new BABYLON.DynamicTexture(
-                "PumpkinFace",
+                'PumpkinFace',
                 { width: width, height: height },
                 scene,
                 false
             );
 
             // Pumpkin material
-            var material = new BABYLON.StandardMaterial("material", scene);
+            var material = new BABYLON.StandardMaterial('material', scene);
             material.diffuseTexture = _customTexture.current;
             material.opacityTexture = _customTexture.current;
-            material.bumpTexture = new BABYLON.Texture("textures/pumpkin_normalmap.jpg", scene);
+            material.bumpTexture = new BABYLON.Texture('textures/pumpkin_normalmap.jpg', scene);
             material.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2);
 
             // Outside of pumpkin
-            var sphere = BABYLON.MeshBuilder.CreateSphere("pumpkin", { diameter: 3 }, scene);
+            var sphere = BABYLON.MeshBuilder.CreateSphere('pumpkin', { diameter: 3 }, scene);
             sphere.addRotation(0, 0, Math.PI);
             sphere.material = material;
 
             // Inside of pumpkin
             var inside = BABYLON.MeshBuilder.CreateSphere(
-                "inside",
+                'inside',
                 { diameter: 2.99, sideOrientation: BABYLON.Mesh.BACKSIDE },
                 scene
             );
-            inside.material = new BABYLON.StandardMaterial("light", scene);
+            inside.material = new BABYLON.StandardMaterial('light', scene);
 
             // Internal light
-            var bulb = new BABYLON.PointLight("bulb", new BABYLON.Vector3(0, 0, 0), scene);
+            var bulb = new BABYLON.PointLight('bulb', new BABYLON.Vector3(0, 0, 0), scene);
             bulb.diffuse = new BABYLON.Color3(255 / 255, 255 / 244, 255 / 229);
         },
         []
@@ -206,27 +205,11 @@ export const PumpkinRenderComponent: React.FC<IPumpkinRenderComponentProps> = Re
     // renderCount is incremented by the containing component to force a re-render.
     React.useEffect(() => {
         if (input && pumpkinImg) {
-            setTexture(
-                input,
-                pumpkinImg,
-                textureWidth,
-                textureHeight,
-                scaleStrength,
-                enableCameraControls
-            );
+            setTexture(input, pumpkinImg, textureWidth, textureHeight, scaleStrength, enableCameraControls);
         }
-    }, [
-        renderCount,
-        input,
-        setTexture,
-        pumpkinImg,
-        textureWidth,
-        textureHeight,
-        scaleStrength,
-        enableCameraControls,
-    ]);
+    }, [renderCount, input, setTexture, pumpkinImg, textureWidth, textureHeight, scaleStrength, enableCameraControls]);
 
-    const canvasStyle = enableCameraControls ? { touchAction: "none" } : {};
+    const canvasStyle = enableCameraControls ? { touchAction: 'none' } : {};
 
     return <canvas width={width} height={height} ref={setCanvas} style={canvasStyle} />;
 });

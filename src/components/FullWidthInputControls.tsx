@@ -1,6 +1,8 @@
-import React from "react";
+import React from 'react';
 
-export const FullWidthInputControls = React.memo(function FullWidthInputControls(props: { children: JSX.Element | JSX.Element[] }): any {
+export const FullWidthInputControls = React.memo(function FullWidthInputControls(props: {
+    children: JSX.Element | JSX.Element[];
+}): any {
     return (
         <div className="ms-Grid" dir="ltr">
             {React.Children.map(props.children, (child: JSX.Element) => {

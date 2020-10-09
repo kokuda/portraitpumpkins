@@ -1,7 +1,6 @@
 import * as BABYLON from 'babylonjs';
 
-export class CanvasFilterShaders
-{
+export class CanvasFilterShaders {
     private _material: BABYLON.ShaderMaterial | undefined;
     private _engine: BABYLON.Engine;
     private _scene: BABYLON.Scene;
@@ -9,7 +8,6 @@ export class CanvasFilterShaders
     private _ground: BABYLON.Mesh;
 
     constructor(dest: HTMLCanvasElement) {
-
         const width = dest.width;
         const height = dest.height;
 
@@ -19,7 +17,7 @@ export class CanvasFilterShaders
         dest.height = height;
         let scene = new BABYLON.Scene(this._engine);
         scene.ambientColor = new BABYLON.Color3(1, 1, 1);
-        var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, 0), scene);
+        var camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5, 0), scene);
         camera.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
         camera.orthoTop = 5;
         camera.orthoBottom = -5;
@@ -28,9 +26,9 @@ export class CanvasFilterShaders
         camera.setTarget(BABYLON.Vector3.Zero());
 
         this._scene = scene;
-        this._dynamicSource = new BABYLON.DynamicTexture("BlurSource", {width:width, height:height}, scene, false);
-        this._ground = BABYLON.Mesh.CreatePlane("ground1", 10, scene);
-        this._ground.addRotation(Math.PI/2, Math.PI, 0);
+        this._dynamicSource = new BABYLON.DynamicTexture('BlurSource', { width: width, height: height }, scene, false);
+        this._ground = BABYLON.Mesh.CreatePlane('ground1', 10, scene);
+        this._ground.addRotation(Math.PI / 2, Math.PI, 0);
     }
 
     dispose() {
@@ -39,8 +37,7 @@ export class CanvasFilterShaders
     }
 
     private _getBlurMaterial(scene: BABYLON.Scene): BABYLON.ShaderMaterial {
-    
-        BABYLON.Effect.ShadersStore["blurVertexShader"] = `
+        BABYLON.Effect.ShadersStore['blurVertexShader'] = `
 
             #ifdef GL_ES
             precision highp float;
@@ -62,7 +59,7 @@ export class CanvasFilterShaders
             }
         `;
 
-        BABYLON.Effect.ShadersStore["blurFragmentShader"] = `
+        BABYLON.Effect.ShadersStore['blurFragmentShader'] = `
             #ifdef GL_ES
             precision highp float;
             #endif
@@ -85,25 +82,28 @@ export class CanvasFilterShaders
                 }
                 gl_FragColor = vec4(colour.rgb / weightTotal, 1.0);
             }
-        `   
+        `;
 
-        let material = new BABYLON.ShaderMaterial("blur", scene, {
-            vertexElement: "blur",
-            fragmentElement: "blur"
-        },
-        {
-            needAlphaBlending: false,
-            attributes: ["position", "uv"],
-            uniforms: ["worldViewProjection"],
-            samplers: ["textureSampler"]
-        });
+        let material = new BABYLON.ShaderMaterial(
+            'blur',
+            scene,
+            {
+                vertexElement: 'blur',
+                fragmentElement: 'blur',
+            },
+            {
+                needAlphaBlending: false,
+                attributes: ['position', 'uv'],
+                uniforms: ['worldViewProjection'],
+                samplers: ['textureSampler'],
+            }
+        );
 
         return material;
     }
 
     private _getLevelsMaterial(scene: BABYLON.Scene): BABYLON.ShaderMaterial {
-    
-        BABYLON.Effect.ShadersStore["levelsVertexShader"] = `
+        BABYLON.Effect.ShadersStore['levelsVertexShader'] = `
 
             #ifdef GL_ES
             precision highp float;
@@ -125,7 +125,7 @@ export class CanvasFilterShaders
             }
         `;
 
-        BABYLON.Effect.ShadersStore["levelsFragmentShader"] = `
+        BABYLON.Effect.ShadersStore['levelsFragmentShader'] = `
             #ifdef GL_ES
             precision highp float;
             #endif
@@ -144,25 +144,28 @@ export class CanvasFilterShaders
                 colour = pow(colour, vec3(gamma)); 
                 gl_FragColor = vec4(colour, 1.0);
             }
-        `   
+        `;
 
-        let material = new BABYLON.ShaderMaterial("levels", scene, {
-            vertexElement: "levels",
-            fragmentElement: "levels"
-        },
-        {
-            needAlphaBlending: false,
-            attributes: ["position", "uv"],
-            uniforms: ["worldViewProjection"],
-            samplers: ["textureSampler"]
-        });
+        let material = new BABYLON.ShaderMaterial(
+            'levels',
+            scene,
+            {
+                vertexElement: 'levels',
+                fragmentElement: 'levels',
+            },
+            {
+                needAlphaBlending: false,
+                attributes: ['position', 'uv'],
+                uniforms: ['worldViewProjection'],
+                samplers: ['textureSampler'],
+            }
+        );
 
         return material;
     }
 
     private _getPosterizeMaterial(scene: BABYLON.Scene): BABYLON.ShaderMaterial {
-    
-        BABYLON.Effect.ShadersStore["posterizeVertexShader"] = `
+        BABYLON.Effect.ShadersStore['posterizeVertexShader'] = `
 
             #ifdef GL_ES
             precision highp float;
@@ -184,7 +187,7 @@ export class CanvasFilterShaders
             }
         `;
 
-        BABYLON.Effect.ShadersStore["posterizeFragmentShader"] = `
+        BABYLON.Effect.ShadersStore['posterizeFragmentShader'] = `
             #ifdef GL_ES
             precision highp float;
             #endif
@@ -201,25 +204,28 @@ export class CanvasFilterShaders
                 int index = int(floor(colourAverage / levelCount));
                 gl_FragColor = vec4(colours[index], 1.0);
             }
-        `   
+        `;
 
-        let material = new BABYLON.ShaderMaterial("posterize", scene, {
-            vertexElement: "posterize",
-            fragmentElement: "posterize"
-        },
-        {
-            needAlphaBlending: false,
-            attributes: ["position", "uv"],
-            uniforms: ["worldViewProjection"],
-            samplers: ["textureSampler"]
-        });
+        let material = new BABYLON.ShaderMaterial(
+            'posterize',
+            scene,
+            {
+                vertexElement: 'posterize',
+                fragmentElement: 'posterize',
+            },
+            {
+                needAlphaBlending: false,
+                attributes: ['position', 'uv'],
+                uniforms: ['worldViewProjection'],
+                samplers: ['textureSampler'],
+            }
+        );
 
         return material;
     }
 
     // Draw the image into a dynamic texture
-    private _storeCanvas(canvas: HTMLCanvasElement)
-    {
+    private _storeCanvas(canvas: HTMLCanvasElement) {
         let width = canvas.width;
         let height = canvas.height;
         let dynamicSource = this._dynamicSource;
@@ -236,16 +242,14 @@ export class CanvasFilterShaders
         dynamicSource.update();
     }
 
-    applyBoxBlur(canvas: HTMLCanvasElement, size: number)
-    {
+    applyBoxBlur(canvas: HTMLCanvasElement, size: number) {
         var kernel = [];
         var kernelCount = 100;
         var kernelTotal = 0;
         let halfSize = size / 2.0;
 
-        for (var i=0; i<kernelCount; ++i)
-        {
-            let x = i % 10 - 5;
+        for (var i = 0; i < kernelCount; ++i) {
+            let x = (i % 10) - 5;
             let y = i / 10 - 5;
             if (Math.abs(x) < halfSize && Math.abs(y) < halfSize) {
                 kernel[i] = 1.0;
@@ -264,19 +268,17 @@ export class CanvasFilterShaders
 
         let dynamicSource = this._dynamicSource;
         let material = this._material;
-        material.setTexture("textureSampler", dynamicSource);
-        material.setFloat("pixelWidth", 1.0 / dynamicSource.getSize().width);
-        material.setFloat("pixelHeight", 1.0 / dynamicSource.getSize().height);
-        material.setFloat("weightTotal", kernelTotal);
-        material.setFloats("weights", kernel);
+        material.setTexture('textureSampler', dynamicSource);
+        material.setFloat('pixelWidth', 1.0 / dynamicSource.getSize().width);
+        material.setFloat('pixelHeight', 1.0 / dynamicSource.getSize().height);
+        material.setFloat('weightTotal', kernelTotal);
+        material.setFloats('weights', kernel);
         material.markAsDirty(BABYLON.Material.AttributesDirtyFlag);
 
         this._scene.render();
-
     }
 
-    applyLevels(canvas: HTMLCanvasElement, lowValue: number, midValue: number, highValue: number)
-    {
+    applyLevels(canvas: HTMLCanvasElement, lowValue: number, midValue: number, highValue: number) {
         let scene = this._scene;
 
         this._storeCanvas(canvas);
@@ -294,22 +296,21 @@ export class CanvasFilterShaders
             let normalizedMid = midValue / 255.0;
             let normalizedHigh = highValue / 255.0;
 
-            material.setTexture("textureSampler", dynamicSource);
-            material.setFloat("lowValue", normalizedLow);
-            material.setFloat("midValue", normalizedMid);
-            material.setFloat("range", normalizedHigh - normalizedLow);
-            material.setFloat("gamma", gamma);
-            material.markAsDirty(BABYLON.Material.AttributesDirtyFlag);    
+            material.setTexture('textureSampler', dynamicSource);
+            material.setFloat('lowValue', normalizedLow);
+            material.setFloat('midValue', normalizedMid);
+            material.setFloat('range', normalizedHigh - normalizedLow);
+            material.setFloat('gamma', gamma);
+            material.markAsDirty(BABYLON.Material.AttributesDirtyFlag);
         }
 
         scene.render();
     }
 
     // colours is one array numbers where each 3 are treated as one colour (r,g,b)
-    applyPosterize(canvas: HTMLCanvasElement, colours: number[])
-    {
+    applyPosterize(canvas: HTMLCanvasElement, colours: number[]) {
         if (colours.length % 3 !== 0) {
-            throw new Error("applyPosterize - colours must be a multiple of three");
+            throw new Error('applyPosterize - colours must be a multiple of three');
         }
 
         let scene = this._scene;
@@ -324,28 +325,23 @@ export class CanvasFilterShaders
         let dynamicSource = this._dynamicSource;
         let material = this._material;
         if (material) {
-
-            material.setTexture("textureSampler", dynamicSource);
-            material.setFloat("levelCount", 1.0 / ((colours.length/3)-1));
-            material.setArray3("colours", colours);
-            material.markAsDirty(BABYLON.Material.AttributesDirtyFlag);    
+            material.setTexture('textureSampler', dynamicSource);
+            material.setFloat('levelCount', 1.0 / (colours.length / 3 - 1));
+            material.setArray3('colours', colours);
+            material.markAsDirty(BABYLON.Material.AttributesDirtyFlag);
         }
 
         scene.render();
     }
 
-    private _CalculateGamma(midValue: number)
-    {
+    private _CalculateGamma(midValue: number) {
         var gamma = 1;
         var midValueNormalized = midValue / 255;
-        if (midValue < 128)
-        {
+        if (midValue < 128) {
             midValueNormalized = midValueNormalized * 2;
-            gamma = 1 + (9 * (1-midValueNormalized))
+            gamma = 1 + 9 * (1 - midValueNormalized);
             gamma = Math.min(gamma, 9.99);
-        }
-        else if (midValue > 128)
-        {
+        } else if (midValue > 128) {
             midValueNormalized = midValueNormalized * 2 - 1;
             gamma = 1 - midValueNormalized;
             gamma = Math.max(gamma, 0.01);
@@ -354,8 +350,7 @@ export class CanvasFilterShaders
     }
 
     private _getPatternMaterial(scene: BABYLON.Scene): BABYLON.ShaderMaterial {
-    
-        BABYLON.Effect.ShadersStore["patternVertexShader"] = `
+        BABYLON.Effect.ShadersStore['patternVertexShader'] = `
 
             #ifdef GL_ES
             precision highp float;
@@ -377,7 +372,7 @@ export class CanvasFilterShaders
             }
         `;
 
-        BABYLON.Effect.ShadersStore["patternFragmentShader"] = `
+        BABYLON.Effect.ShadersStore['patternFragmentShader'] = `
             #ifdef GL_ES
             precision highp float;
             #endif
@@ -406,24 +401,27 @@ export class CanvasFilterShaders
                     gl_FragColor = colour;
                 }
             }
-        `   
+        `;
 
-        let material = new BABYLON.ShaderMaterial("pattern", scene, {
-            vertexElement: "pattern",
-            fragmentElement: "pattern"
-        },
-        {
-            needAlphaBlending: false,
-            attributes: ["position", "uv"],
-            uniforms: ["worldViewProjection"],
-            samplers: ["textureSampler"]
-        });
+        let material = new BABYLON.ShaderMaterial(
+            'pattern',
+            scene,
+            {
+                vertexElement: 'pattern',
+                fragmentElement: 'pattern',
+            },
+            {
+                needAlphaBlending: false,
+                attributes: ['position', 'uv'],
+                uniforms: ['worldViewProjection'],
+                samplers: ['textureSampler'],
+            }
+        );
 
         return material;
     }
 
-    replacePattern(canvas: HTMLCanvasElement)
-    {
+    replacePattern(canvas: HTMLCanvasElement) {
         let scene = this._scene;
 
         this._storeCanvas(canvas);
@@ -436,10 +434,10 @@ export class CanvasFilterShaders
         let dynamicSource = this._dynamicSource;
         let material = this._material;
         if (material) {
-            material.setTexture("textureSampler", dynamicSource);
-            material.setFloat("pixelWidth", 1.0 / dynamicSource.getSize().width);
-            material.setFloat("pixelHeight", 1.0 / dynamicSource.getSize().height);
-            material.markAsDirty(BABYLON.Material.AttributesDirtyFlag);    
+            material.setTexture('textureSampler', dynamicSource);
+            material.setFloat('pixelWidth', 1.0 / dynamicSource.getSize().width);
+            material.setFloat('pixelHeight', 1.0 / dynamicSource.getSize().height);
+            material.markAsDirty(BABYLON.Material.AttributesDirtyFlag);
         }
 
         scene.render();

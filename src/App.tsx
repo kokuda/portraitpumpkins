@@ -1,30 +1,30 @@
-import React from "react";
-import "@fluentui/react/dist/css/fabric.css";
-import "./App.css";
-import { ImageProcessingComponent } from "./components/ImageProcessingComponent";
-import { PdfGenerator } from "./utils/PdfGenerator";
-import { Utils } from "./utils/Utils";
-import { FinalCanvasComponent, FinalShaderCanvasComponent } from "./components/FinalCanvasComponent";
-import { HeaderOptions } from "./components/HeaderOptions";
+import React from 'react';
+import '@fluentui/react/dist/css/fabric.css';
+import './App.css';
+import { ImageProcessingComponent } from './components/ImageProcessingComponent';
+import { PdfGenerator } from './utils/PdfGenerator';
+import { Utils } from './utils/Utils';
+import { FinalCanvasComponent, FinalShaderCanvasComponent } from './components/FinalCanvasComponent';
+import { HeaderOptions } from './components/HeaderOptions';
 
-import { Text } from "@fluentui/react/lib/Text";
-import { Separator } from "@fluentui/react/lib/Separator";
-import { initializeIcons } from "@fluentui/react/lib/Icons";
-import { ImageProcessingOptions } from "./components/ImageProcessingOptions";
-import { LayerSelectionComponent } from "./components/LayerSelectionComponent";
-import { FullWidthInputControls } from "./components/FullWidthInputControls";
+import { Text } from '@fluentui/react/lib/Text';
+import { Separator } from '@fluentui/react/lib/Separator';
+import { initializeIcons } from '@fluentui/react/lib/Icons';
+import { ImageProcessingOptions } from './components/ImageProcessingOptions';
+import { LayerSelectionComponent } from './components/LayerSelectionComponent';
+import { FullWidthInputControls } from './components/FullWidthInputControls';
 initializeIcons(/* optional base url */);
 
 const MAGIC_PUMPKIN_SCALE_VALUE = 0.375;
 
 const App: React.FC = () => {
-    const _finalCanvas = React.useRef(document.createElement("canvas"));
+    const _finalCanvas = React.useRef(document.createElement('canvas'));
 
     const [levelRange, setLevelRange] = React.useState<[number, number, number]>([120, 134, 179]);
     const [blurStrength, setBlurStrength] = React.useState(10);
     const [scaleStrength, setScaleStrength] = React.useState(1.2);
-    const [selectedLayer, setSelectedLayer] = React.useState("pumpkin");
-    const [processedCanvas, setProcessedCanvas] = React.useState(document.createElement("canvas"));
+    const [selectedLayer, setSelectedLayer] = React.useState('pumpkin');
+    const [processedCanvas, setProcessedCanvas] = React.useState(document.createElement('canvas'));
     const [processedRenderCount, setProcessedRenderCount] = React.useState(0);
     const [rotation, setRotation] = React.useState(0);
     const [pumpkinSizeInInches, setPumpkinSizeInInches] = React.useState(14);
@@ -42,7 +42,7 @@ const App: React.FC = () => {
 
     // This should run only once since it depends on loadImage, which depends on nothing.
     React.useEffect(() => {
-        loadImage("./images/matthew.jpg");
+        loadImage('./images/matthew.jpg');
     }, [loadImage]);
 
     const onSave = React.useCallback(() => {
@@ -64,7 +64,7 @@ const App: React.FC = () => {
         _finalCanvas.current = canvas;
     }, []);
 
-    const useImageProcessingComponent = selectedLayer !== "final";
+    const useImageProcessingComponent = selectedLayer !== 'final';
 
     // rotate the image onto a new Canvas.
     const imageCanvas = React.useMemo(() => {
@@ -74,7 +74,7 @@ const App: React.FC = () => {
     return (
         <div className="ms-Grid" dir="ltr">
             <div className="ms-Grid-row">
-                <Text variant={"xxLarge"}>Portait Pumpkin</Text>
+                <Text variant={'xxLarge'}>Portait Pumpkin</Text>
                 <Separator />
             </div>
             <div className="ms-Grid-row">
@@ -88,9 +88,9 @@ const App: React.FC = () => {
             </div>
             <div className="ms-Grid-row">
                 <div className="ms-Grid-col ms-sm12 ms-xl6">
-                    <div className={!useImageProcessingComponent ? "hidden" : ""}>
+                    <div className={!useImageProcessingComponent ? 'hidden' : ''}>
                         <ImageProcessingComponent
-                            key={shadersEnabled ? "ipc_shader" : "ipc"}
+                            key={shadersEnabled ? 'ipc_shader' : 'ipc'}
                             levelRange={levelRange}
                             blurStrength={blurStrength}
                             scaleValue={scaleStrength * MAGIC_PUMPKIN_SCALE_VALUE}
@@ -102,7 +102,7 @@ const App: React.FC = () => {
                             enableCameraControls={cameraControlEnabled}
                         />
                     </div>
-                    <div className={selectedLayer !== "final" ? "hidden" : ""}>
+                    <div className={selectedLayer !== 'final' ? 'hidden' : ''}>
                         {shadersEnabled ? (
                             <FinalShaderCanvasComponent
                                 input={processedCanvas}
@@ -143,7 +143,7 @@ const App: React.FC = () => {
             </div>
             <div className="ms-Grid-row">
                 <div className="notice ms-depth-16 ms-Grid-col ms-sm12">
-                    For more details and instructions in how to apply this to the pumpkin, see{" "}
+                    For more details and instructions in how to apply this to the pumpkin, see{' '}
                     <a href="http://notions.okuda.ca/2019/10/26/portrait-pumpkin-carving-app/">
                         <strong>the original Notions blog post HERE</strong>
                     </a>

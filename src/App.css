@@ -1,5 +1,13 @@
-.hidden { display:none; }
+.hidden {
+    display: none;
+}
 
-.notice { padding-top: 20px; padding-bottom: 20px }
+.notice {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
 
-.ms-Grid-row { margin-top: 10px; margin-bottom: 10px}
+.ms-Grid-row {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
