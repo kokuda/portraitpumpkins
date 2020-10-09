@@ -7,12 +7,14 @@ export interface IInputFormComponentProps {
     helpText: string;
 }
 
-export const InputFormComponent: React.FC<IInputFormComponentProps> = React.memo((props) => (
-    <div>
-        <Text variant={"medium"} className="ms-fontWeight-bold">
-            {props.label}
-        </Text>
-        {props.children}
-        <Text variant={"small"}>{props.helpText}</Text>
-    </div>
-));
+export const InputFormComponent: React.FC<IInputFormComponentProps> = React.memo(function InputFormComponent(props) {
+    return (
+        <div>
+            <Text variant={"medium"} className="ms-fontWeight-bold">
+                {props.label}
+            </Text>
+            {props.children}
+            <Text variant={"small"}>{props.helpText}</Text>
+        </div>
+    )
+});
