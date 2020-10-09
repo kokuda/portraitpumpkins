@@ -67,7 +67,6 @@ export const ImageProcessingComponent: React.FC<IImageProcessingComponentProps> 
     // Use callback and state instead of useRef so that we get notified when it changes
     // and can render the image into it the first time.
     const [originalCanvas, setOriginalCanvas] = useState<HTMLCanvasElement | null>(null);
-    const originalRef = React.useCallback((canvas) => setOriginalCanvas(canvas), []);
 
     // Use state to tell each component canvas to re-render itself.
     const [blurCount, setBlurCount] = useState(0);
@@ -97,6 +96,8 @@ export const ImageProcessingComponent: React.FC<IImageProcessingComponentProps> 
             return;
         }
 
+        context.clearRect(0, 0, originalCanvas.width, originalCanvas.height);
+
         context.drawImage(image, 0, 0, originalCanvas.width, originalCanvas.height);
 
         if (grayscaleRef.current && originalCanvas) {
@@ -122,7 +123,7 @@ export const ImageProcessingComponent: React.FC<IImageProcessingComponentProps> 
 
         return (
             <SingleElementComponent visibleIndex={selectedIndex}>
-                <canvas ref={originalRef} width={width} height={height} />
+                <canvas ref={setOriginalCanvas} width={width} height={height} />
                 <canvas ref={grayscaleRef} width={width} height={height} />
                 <BlurComponent
                     canvasRef={blurRef}

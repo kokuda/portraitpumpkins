@@ -231,6 +231,7 @@ export class CanvasFilterShaders
         }
 
         let inputCtx = dynamicSource.getContext();
+        inputCtx.clearRect(0, 0, width, height);
         inputCtx.drawImage(canvas, 0, 0, width, height, 0, 0, width, height);
         dynamicSource.update();
     }
