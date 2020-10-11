@@ -1,5 +1,4 @@
 import { CanvasFilter } from './CanvasFilter';
-import { VectorMath } from './VectorMath';
 
 export class Utils {
     static ProcessFinalCanvas(canvas: HTMLCanvasElement) {
@@ -45,12 +44,13 @@ export class Utils {
     }
 
     static DrawRotatedImage(image: HTMLImageElement, rotation: number): HTMLCanvasElement {
-        let boundingBox = VectorMath.GetRotatedBoundingBox(image.width, image.height, (rotation * Math.PI) / 180);
+        // Draw the image into a square canvas
+        const maxDimension = Math.max(image.width, image.height);
 
         // Create a temporary canvas
         var canvas = document.createElement('canvas');
-        canvas.width = boundingBox.width;
-        canvas.height = boundingBox.height;
+        canvas.width = maxDimension;
+        canvas.height = maxDimension;
 
         // Rotate and draw the image on the canvas
         var context = canvas.getContext('2d')!;
