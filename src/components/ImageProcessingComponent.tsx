@@ -103,7 +103,7 @@ export const ImageProcessingComponent: React.FC<IImageProcessingComponentProps> 
 
         // Mark the image as needing to be blurred
         setBlurCount((b) => b + 1);
-    }, [image, originalCanvas]);
+    }, [image, originalCanvas, width]);
 
     // Wait for an image before we render anything
     if (image) {

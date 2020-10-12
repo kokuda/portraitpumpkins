@@ -13,6 +13,7 @@ import { initializeIcons } from '@fluentui/react/lib/Icons';
 import { ImageProcessingOptions } from './components/ImageProcessingOptions';
 import { LayerSelectionComponent } from './components/LayerSelectionComponent';
 import { FullWidthInputControls } from './components/FullWidthInputControls';
+import { useSizeObserver } from './hooks/useSizeObserver';
 initializeIcons(/* optional base url */);
 
 const MAGIC_PUMPKIN_SCALE_VALUE = 0.375;
@@ -71,6 +72,9 @@ const App: React.FC = () => {
         return image ? Utils.DrawRotatedImage(image, rotation) : undefined;
     }, [image, rotation]);
 
+    const imageContainerRef = React.useRef<HTMLDivElement | null>(null);
+    const { width } = useSizeObserver(imageContainerRef.current, 400, 0);
+
     return (
         <div className="ms-Grid" dir="ltr">
             <div className="ms-Grid-row">
@@ -87,42 +91,44 @@ const App: React.FC = () => {
                 />
             </div>
             <div className="ms-Grid-row">
-                <div className="ms-Grid-col ms-sm12 ms-xl6">
-                    <div className={!useImageProcessingComponent ? 'hidden' : ''}>
-                        <ImageProcessingComponent
-                            key={shadersEnabled ? 'ipc_shader' : 'ipc'}
-                            levelRange={levelRange}
-                            blurStrength={blurStrength}
-                            scaleValue={scaleStrength * MAGIC_PUMPKIN_SCALE_VALUE}
-                            selectedLayer={selectedLayer}
-                            onImageChange={onImageChange}
-                            image={imageCanvas}
-                            width={400}
-                            useShaders={shadersEnabled}
-                            enableCameraControls={cameraControlEnabled}
-                        />
-                    </div>
-                    <div className={selectedLayer !== 'final' ? 'hidden' : ''}>
-                        {shadersEnabled ? (
-                            <FinalShaderCanvasComponent
-                                input={processedCanvas}
-                                width={processedCanvas.width}
-                                height={processedCanvas.height}
-                                renderCount={processedRenderCount}
-                                onImageChange={onFinalImageChange}
+                <div className="ms-Grid-col ms-sm12 ms-xl6 ms-xxl4">
+                    <div ref={imageContainerRef}>
+                        <div className={!useImageProcessingComponent ? 'hidden' : ''}>
+                            <ImageProcessingComponent
+                                key={shadersEnabled ? 'ipc_shader' : 'ipc'}
+                                levelRange={levelRange}
+                                blurStrength={blurStrength}
+                                scaleValue={scaleStrength * MAGIC_PUMPKIN_SCALE_VALUE}
+                                selectedLayer={selectedLayer}
+                                onImageChange={onImageChange}
+                                image={imageCanvas}
+                                width={width}
+                                useShaders={shadersEnabled}
+                                enableCameraControls={cameraControlEnabled}
                             />
-                        ) : (
-                            <FinalCanvasComponent
-                                input={processedCanvas}
-                                width={processedCanvas.width}
-                                height={processedCanvas.height}
-                                renderCount={processedRenderCount}
-                                onImageChange={onFinalImageChange}
-                            />
-                        )}
+                        </div>
+                        <div className={selectedLayer !== 'final' ? 'hidden' : ''}>
+                            {shadersEnabled ? (
+                                <FinalShaderCanvasComponent
+                                    input={processedCanvas}
+                                    width={processedCanvas.width}
+                                    height={processedCanvas.height}
+                                    renderCount={processedRenderCount}
+                                    onImageChange={onFinalImageChange}
+                                />
+                            ) : (
+                                <FinalCanvasComponent
+                                    input={processedCanvas}
+                                    width={processedCanvas.width}
+                                    height={processedCanvas.height}
+                                    renderCount={processedRenderCount}
+                                    onImageChange={onFinalImageChange}
+                                />
+                            )}
+                        </div>
                     </div>
                 </div>
-                <div className="ms-Grid-col ms-sm12 ms-xl6">
+                <div className="ms-Grid-col ms-sm12 ms-xl6 ms-xxl4">
                     <FullWidthInputControls>
                         <LayerSelectionComponent layer={selectedLayer} onValueChanged={setSelectedLayer} />
                         <ImageProcessingOptions
