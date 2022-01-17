@@ -23,6 +23,8 @@ For performance it uses webgl shaders to implement each layer of image processin
 
 ## Getting Started
 
+Requires node.js > 14.0.0 (tested with 16.13.2)
+
 ### `npm install`
 
 Install the required dependencies

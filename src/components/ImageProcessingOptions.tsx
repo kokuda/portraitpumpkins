@@ -42,7 +42,7 @@ const percentFormatter = (value: number) => `${value}%`;
 const degreeFormatter = (value: number) => `${value}°`;
 const inchFormatter = (value: number) => `${value}"`;
 
-const SliderWithToolTip = React.memo(createSliderWithTooltip(Slider));
+const SliderWithToolTip = createSliderWithTooltip(Slider);
 const MemoRange = React.memo(Range);
 
 const WithMarks: React.FC = function WithMarks(props) {
